@@ -32,10 +32,19 @@ const TodoList = () => {
 
   const handleRemoveTask = (index) => {
     const newTodos = [...todos]; //新しい配列をnewTodosにコピー
-    newTodos.splice(index, 1);//index番目から1つ削除
-    setTodos(newTodos);//新しい配列をtodosにセット
+    newTodos.splice(index, 1); //index番目から1つ削除
+    setTodos(newTodos); //新しい配列をtodosにセット
   };
 
+  const handleUpdateTask = (index) => {
+    let newTodos = todos.map((todo, todoIndex) => {
+      if (todoIndex === index) {
+        todo.isCompleted = !todo.isCompleted;
+      }
+      return todo;
+    });
+    setTodos(newTodos);
+  };
 
   return (
     <div>
@@ -50,9 +59,19 @@ const TodoList = () => {
         />
         <button type="submit">Add</button>
       </form>
+
       <ul>
         {todos.map((todo, index) => (
-          <li key={index}>{todo.task} <span onClick={() => handleRemoveTask(index)}>X</span></li>
+          <li
+            key={index}
+            style={
+              todo.isCompleted === true
+                ? { textDecorationLine: "line-through" }
+                : {}
+            }
+          >
+            {todo.task} <span onClick={() => handleUpdateTask(index)}>X</span>
+          </li>
         ))}
       </ul>
     </div>
