@@ -16,3 +16,11 @@ const reverseArray = (array) => {
 
 console.log(reverseArray(originalArray));
 console.log(reverseArray(strings));
+
+const originArray = [1, 2, 3, 4, 5];
+
+originArray.forEach((element, index, array) => {
+  array[index] = element * 2;
+});
+
+console.log(originArray); // 元の配列が変更される
