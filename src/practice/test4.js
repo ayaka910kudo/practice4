@@ -19,7 +19,7 @@ const reverseStrings = (strings) => {
     return element.split("").reverse().join("");
   });
 
-  return mapResult;
+  return mapResult.join(" ");
 
   // デバッグ
   // console.log(mapResult)
@@ -27,7 +27,7 @@ const reverseStrings = (strings) => {
 
 // console.log(reverseStrings(originalStrings));
 const reverseStringResult = reverseStrings(originalStrings);
-// console.log(reverseStringResult)
+console.log(reverseStringResult)
 
 /**
  * 単語の並びを逆順に変更して、各単語のスペルも逆順にする
