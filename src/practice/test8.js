@@ -1,3 +1,5 @@
+const { Dela_Gothic_One } = require("next/font/google");
+
 const students = [
   { id: 1, name: "Alice", grade: "A" },
   { id: 2, name: "Bob", grade: "B" },
@@ -33,10 +35,20 @@ const updateGrade = (targetId, newGrade) => {
   //return target.grade = newGrade
 };
 
+const removeStudent = (targetId) => {
+  students.forEach((student, index) => {
+    if (student.id === targetId) {
+      delete students[index];
+    }
+  });
+};
+
 //console.log(getStudentById(3));
 //console.log(getStudentsByGrade("A"));
 //addStudent({ id: 6, name: "ann", grade: "S" });
 //console.log(students);
 
 console.log(updateGrade(2, "SSS"));
-console.log(students)
+console.log(students);
+console.log(removeStudent(2));
+console.log(students);
