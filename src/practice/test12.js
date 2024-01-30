@@ -1,5 +1,5 @@
 // JSONPlaceholderの投稿データを取得するAPIのURL
-const apiUrl = "https://zipcloud.ibsnet.co.jp/api/search?zipcode=079017";
+const apiUrl = "https://zipcloud.ibsnet.co.jp/api/search?zipcode=0790177";
 
 // fetch関数でAPIからデータを取得する
 fetch(apiUrl)
@@ -13,15 +13,12 @@ fetch(apiUrl)
     // JSONデータを解析してPromiseを返す
     return response.json();
   })
-  .then((posts) => {
+  .then((results) => {
     // 取得したデータをコンソールに表示
-    console.log("取得した投稿データ:", posts);
-    // console.log(posts[0]);
+    console.log("取得したデータ:", results);
+
     // データを使って何かしらの処理を行うことができます
     // この例では、各投稿のタイトルをコンソールに表示しています
-    // posts.forEach((post) => {
-    //   console.log("投稿タイトル:", post.title);
-    // });
   })
   .catch((error) => {
     // エラーハンドリング
