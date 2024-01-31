@@ -1,6 +1,9 @@
+//未完了と完了のタスクを分けて表示する
+
 import { useState } from "react";
 
 const TodoList = () => {
+  //ToDoが入っているリスト
   const initTodos = [
     {
       task: "Learn vue.js",
@@ -16,13 +19,18 @@ const TodoList = () => {
     },
   ];
 
+  //ToDoはリストに入ったもの
   const [todos, setTodos] = useState(initTodos);
+  //Taskは入力された文字
   const [task, setTask] = useState("");
+
+  //入力された文字をTaskとする
   const handleNewTask = (event) => {
     console.log(event);
     setTask(event.target.value);
   };
 
+  //ボタンが押されたら、ToDoの最後にTaskに入っていた文字を追加してTaskを空に戻す
   const handleSubmit = (event) => {
     event.preventDefault(); // デフォルトだとeventを受け取るとリロードされるがページ遷移を防ぐ
     if (task === "") return; //空文字の場合は何もしない
@@ -55,6 +63,7 @@ const TodoList = () => {
         <input
           value={task}
           placeholder="Add New Task"
+          //入力された文字をhandleNewTaskで処理
           onChange={handleNewTask}
         />
         <button type="submit">Add</button>
@@ -63,7 +72,7 @@ const TodoList = () => {
       <ul>
         {todos.map((todo, index) => (
           <li
-            key={index}
+            key={index} //繰り返しのものに必要
             style={
               todo.isCompleted === true
                 ? { textDecorationLine: "line-through" }
