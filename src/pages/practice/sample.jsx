@@ -87,12 +87,118 @@ const ArrayComponent = () => {
   );
 };
 
+const MakeTodoList = () => {
+  //jsゾーン
+  // Todoが入るリスト
+  const [task, setTask] = useState("");
+  const [todo, setTodo] = useState([
+    { task: "タスク名1", isCompleted: false, date: "2/14" },
+    { task: "タスク名2", isCompleted: true, date: "2/15" },
+  ]);
+
+  return (
+    <>
+      <p>☆ToDoリスト☆</p>
+      <div style={{ display: "flex" }}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault(); // デフォルトだとeventを受け取るとリロードされるがページ遷移を防ぐ
+            if (task === "") return; //空文字の場合は何もしない
+            setTodo((todo) => [
+              ...todo,
+              { task, isCompleted: false, date: "xxx" },
+            ]); //配列の最後に追加
+            setTask("");
+          }}
+        >
+          <input
+            type="text"
+            placeholder="タスクを入力してね"
+            style={{ color: "#99f703" }}
+            onChange={(event) => {
+              console.log(event);
+              setTask(event.target.value);
+            }}
+          ></input>
+          <button type="submit">追加</button>
+        </form>
+      </div>
+
+      <h1>全てのタスク</h1>
+      <ul>
+        {todo.map((item, index) => (
+          <li
+            key={index} //繰り返しのものに必要
+          >
+            {/* {item.task + " " + item.isCompleted + item.date} */}
+            {`${item.task}
+           ${item.isCompleted} ${item.date}`}
+          </li>
+        ))}
+      </ul>
+      <div style={{ display: "flex" }}>
+        <div style={{ margin: "5px" }}>
+          <h2>未着手</h2>
+          {/* ここにstatusが未完了のタスクを表示 */}
+          <ul>
+            {todo.map(
+              (item, index) =>
+                // isCompleted が false の場合のみ表示
+                !item.isCompleted && (
+                  <li key={index}>
+                    {`${item.task} ${item.isCompleted} ${item.date}`}
+                  </li>
+                )
+            )}
+          </ul>
+        </div>
+        <div style={{ margin: "5px" }}>
+          <h2>完了</h2>
+          <ul>
+            {todo.map(
+              (item, index) =>
+                // isCompleted が true の場合のみ表示
+                item.isCompleted && (
+                  <li key={index}>
+                    {`${item.task} ${item.isCompleted} ${item.date}`}
+                  </li>
+                )
+            )}
+          </ul>
+
+          {/* <li>bbb</li> */}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const NotLogin = () => {
+  return <p>ログインしてください。</p>;
+};
+
 const Main = () => {
+  // const isLogin = true;
+
+  // if (isLogin) {
+  // }
+
+  // // and
+  // if (3 + 3 === 6 && isLogin) {
+  // }
+
+  // // or
+  // if (3 + 3 === 6 || isLogin) {
+  // }
+
   return (
     <>
       {/* <Sample /> */}
       {/* <ZipToAddress /> */}
-      <ArrayComponent />
+      {/* <ArrayComponent /> */}
+      {/* {isLogin ? <MakeTodoList /> : <NotLogin />} */}
+      {/* {isLogin && <MakeTodoList />} */}
+      <MakeTodoList />
     </>
   );
 };
