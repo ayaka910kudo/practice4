@@ -91,6 +91,7 @@ const MakeTodoList = () => {
   //jsゾーン
   // Todoが入るリスト
   const [task, setTask] = useState("");
+  const [dueDate, setDueDate] = useState(""); // 追加: 期限のステート
   const [todo, setTodo] = useState([
     { task: "タスク名1", isCompleted: false, date: "2/14" },
     { task: "タスク名2", isCompleted: true, date: "2/15" },
@@ -100,28 +101,47 @@ const MakeTodoList = () => {
     <>
       <p>☆ToDoリスト☆</p>
       <div style={{ display: "flex" }}>
-        <form
-          onSubmit={(event) => {
+        {/* <form
+        onSubmit=
+        {(event) => {
+          event.preventDefault(); // デフォルトだとeventを受け取るとリロードされるがページ遷移を防ぐ
+          if (task === "") return; //空文字の場合は何もしない
+          setTodo((todo) => [
+            ...todo,
+            { task, isCompleted: false, date: dueDate },
+          ]); //配列の最後に追加
+          setTask("");
+        }}
+        > */}
+        <input
+          type="text"
+          placeholder="タスクを入力してね"
+          style={{ color: "#99f703" }}
+          onChange={(event) => {
+            console.log(event);
+            setTask(event.target.value);
+          }}
+        />
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(event) => setDueDate(event.target.value)}
+        />
+        <button
+          // type="submit"
+          onClick={(event) => {
             event.preventDefault(); // デフォルトだとeventを受け取るとリロードされるがページ遷移を防ぐ
             if (task === "") return; //空文字の場合は何もしない
             setTodo((todo) => [
               ...todo,
-              { task, isCompleted: false, date: "xxx" },
+              { task, isCompleted: false, date: dueDate },
             ]); //配列の最後に追加
             setTask("");
           }}
         >
-          <input
-            type="text"
-            placeholder="タスクを入力してね"
-            style={{ color: "#99f703" }}
-            onChange={(event) => {
-              console.log(event);
-              setTask(event.target.value);
-            }}
-          ></input>
-          <button type="submit">追加</button>
-        </form>
+          追加
+        </button>
+        {/* </form> */}
       </div>
 
       <h1>全てのタスク</h1>
@@ -145,9 +165,20 @@ const MakeTodoList = () => {
               (item, index) =>
                 // isCompleted が false の場合のみ表示
                 !item.isCompleted && (
-                  <li key={index}>
-                    {`${item.task} ${item.isCompleted} ${item.date}`}
-                  </li>
+                  <div>
+                    <li key={index}>
+                      {`${item.task} ${item.isCompleted} ${item.date}`}
+                    </li>
+                    <button
+                      onClick={(event) => {
+                        const copyTodo = [...todo];
+                        copyTodo[index].isCompleted = true;
+                        setTodo(copyTodo);
+                      }}
+                    >
+                      終わった！
+                    </button>
+                  </div>
                 )
             )}
           </ul>
