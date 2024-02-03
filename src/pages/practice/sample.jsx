@@ -88,6 +88,8 @@ const ArrayComponent = () => {
 };
 
 const MakeTodoList = () => {
+  //TODO タスクの更新
+  //TODO タスクの削除
   //jsゾーン
   // Todoが入るリスト
   const [task, setTask] = useState("");
@@ -192,12 +194,19 @@ const MakeTodoList = () => {
                 item.isCompleted && (
                   <li key={index}>
                     {`${item.task} ${item.isCompleted} ${item.date}`}
+                    <button
+                      onClick={(event) => {
+                        const copyTodo = [...todo];
+                        copyTodo[index].isCompleted = false;
+                        setTodo(copyTodo);
+                      }}
+                    >
+                      まだ終わってなかった！
+                    </button>
                   </li>
                 )
             )}
           </ul>
-
-          {/* <li>bbb</li> */}
         </div>
       </div>
     </>
