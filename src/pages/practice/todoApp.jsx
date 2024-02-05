@@ -98,7 +98,6 @@ const TodoApp = () => {
         <input
           type="text"
           placeholder="タスクを入力してね"
-          style={{ color: "#99f703" }}
           onChange={(event) => {
             console.log(event);
             setTask(event.target.value);
