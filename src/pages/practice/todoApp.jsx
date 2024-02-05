@@ -2,7 +2,6 @@ import { useState } from "react";
 
 // 上から順に実施してください。
 
-// TODO タスク名、期限、編集ボタン、削除ボタンが1行で表示されており、UIとして良くないのでテーブルで表示してください。
 // TODO ソート機能を追加してください。ソート項目は期限で昇順、降順で並び替えられるようにしてください。
 // TODO 編集モーダルを開いた際の初期値に何も入力がないので、編集したいToDoのタスク名と期限がデフォルトで表示されるように修正してください。
 
@@ -133,25 +132,33 @@ const TodoApp = () => {
           <li
             key={index} //繰り返しのものに必要
           >
-            {`${index + 1}.${item.task}
-            【期限】${formatDate(item.date)}`}
-            <button
-              onClick={() => {
-                setEditIndex(index);
-                setIsModalOpen(true);
-              }}
-            >
-              編集
-            </button>
-            <button
-              onClick={() => {
-                const copyDelateTodo = [...todo];
-                copyDelateTodo.splice(index, 1);
-                setTodo(copyDelateTodo);
-              }}
-            >
-              削除
-            </button>
+            <table style={{ border: "1px solid #ddd" }}>
+              <tr style={{ border: "1px solid #ddd" }}>
+                <td style={{ border: "1px solid #ddd" }}>{index + 1}.</td>
+                <td style={{ border: "1px solid #ddd" }}>{item.task}</td>
+                <td style={{ border: "1px solid #ddd" }}>
+                  【期限{formatDate(item.date)}
+                </td>
+
+                <button
+                  onClick={() => {
+                    setEditIndex(index);
+                    setIsModalOpen(true);
+                  }}
+                >
+                  編集
+                </button>
+                <button
+                  onClick={() => {
+                    const copyDelateTodo = [...todo];
+                    copyDelateTodo.splice(index, 1);
+                    setTodo(copyDelateTodo);
+                  }}
+                >
+                  削除
+                </button>
+              </tr>
+            </table>
           </li>
         ))}
       </ul>
