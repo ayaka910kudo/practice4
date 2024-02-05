@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 // 上から順に実施してください。
-// TODO isCompletedの値が表示されているので削除してください。
 // TODO タスク作成の入力項目の色が気持ち悪いのでスタイルを削除してください。
 // TODO ToDo編集モーダルで期限が編集できないので、編集できるようにしてください。
 // TODO タスク名、期限、編集ボタン、削除ボタンが1行で表示されており、UIとして良くないのでテーブルで表示してください。
@@ -86,9 +85,15 @@ const TodoApp = () => {
     { task: "タスク名2", isCompleted: true, date: "2/15" },
   ]);
 
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleDateString("ja-JP", options);
+  };
+
   return (
     <>
-      <p>☆ToDoリスト☆</p>
+      <h1>☆ToDoリスト☆</h1>
+      <p>新規タスク追加</p>
       <div style={{ display: "flex" }}>
         <input
           type="text"
@@ -118,14 +123,15 @@ const TodoApp = () => {
         </button>
       </div>
 
-      <h1>全てのタスク</h1>
-      <ul>
+      <h2>全てのタスク</h2>
+
+      <ul style={{ listStyleType: "none" }}>
         {todo.map((item, index) => (
           <li
             key={index} //繰り返しのものに必要
           >
-            {`${item.task}
-           ${item.isCompleted} ${item.date}`}
+            {`${index + 1}.${item.task}
+            【期限】${formatDate(item.date)}`}
             <button
               onClick={() => {
                 setEditIndex(index);
@@ -156,7 +162,7 @@ const TodoApp = () => {
                 !item.isCompleted && (
                   <div>
                     <li key={index}>
-                      {`${item.task} ${item.isCompleted} ${item.date}`}
+                      {`${item.task} ${formatDate(item.date)}`}
                     </li>
                     <button
                       onClick={(event) => {
@@ -180,7 +186,7 @@ const TodoApp = () => {
                 // isCompleted が true の場合のみ表示
                 item.isCompleted && (
                   <li key={index}>
-                    {`${item.task} ${item.isCompleted} ${item.date}`}
+                    {`${item.task} ${formatDate(item.date)}`}
                     <button
                       onClick={() => {
                         const copyTodo = [...todo];
