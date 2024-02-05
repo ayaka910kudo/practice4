@@ -133,32 +133,48 @@ const TodoApp = () => {
             key={index} //繰り返しのものに必要
           >
             <table style={{ border: "1px solid #ddd" }}>
-              <tr style={{ border: "1px solid #ddd" }}>
-                <td style={{ border: "1px solid #ddd" }}>{index + 1}.</td>
-                <td style={{ border: "1px solid #ddd" }}>{item.task}</td>
-                <td style={{ border: "1px solid #ddd" }}>
-                  【期限{formatDate(item.date)}
-                </td>
-
-                <button
-                  onClick={() => {
-                    setEditIndex(index);
-                    setIsModalOpen(true);
-                  }}
-                >
-                  編集
-                </button>
-                <button
-                  onClick={() => {
-                    const copyDelateTodo = [...todo];
-                    copyDelateTodo.splice(index, 1);
-                    setTodo(copyDelateTodo);
-                  }}
-                >
-                  削除
-                </button>
-              </tr>
+              <tbody>
+                <tr style={{ border: "1px solid #ddd" }}>
+                  <td style={{ border: "1px solid #ddd" }}>{index + 1}.</td>
+                  <td style={{ border: "1px solid #ddd" }}>{item.task}</td>
+                  <td style={{ border: "1px solid #ddd" }}>
+                    【期限】{formatDate(item.date)}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setEditIndex(index);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      編集
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        const copyDelateTodo = [...todo];
+                        copyDelateTodo.splice(index, 1);
+                        setTodo(copyDelateTodo);
+                      }}
+                    >
+                      削除
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
             </table>
+
+            {/*             
+            <button
+              onClick={() => {
+                const copyDelateTodo = [...todo];
+                copyDelateTodo.splice(index, 1);
+                setTodo(copyDelateTodo);
+              }}
+            >
+              削除
+            </button> */}
           </li>
         ))}
       </ul>
@@ -171,18 +187,29 @@ const TodoApp = () => {
                 // isCompleted が false の場合のみ表示
                 !item.isCompleted && (
                   <div>
-                    <li key={index}>
-                      {`${item.task} ${formatDate(item.date)}`}
+                    <li key={index} style={{ listStyleType: "none" }}>
+                      <table style={{ border: "1px solid #ddd" }}>
+                        <tbody>
+                          <tr style={{ border: "1px solid #ddd" }}>
+                            <td style={{ border: "1px solid #ddd" }}>
+                              {" "}
+                              {`${item.task} ${formatDate(item.date)}`}
+                            </td>
+                            <td>
+                              <button
+                                onClick={(event) => {
+                                  const copyTodo = [...todo];
+                                  copyTodo[index].isCompleted = true;
+                                  setTodo(copyTodo);
+                                }}
+                              >
+                                終わった！
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </li>
-                    <button
-                      onClick={(event) => {
-                        const copyTodo = [...todo];
-                        copyTodo[index].isCompleted = true;
-                        setTodo(copyTodo);
-                      }}
-                    >
-                      終わった！
-                    </button>
                   </div>
                 )
             )}
@@ -195,17 +222,27 @@ const TodoApp = () => {
               (item, index) =>
                 // isCompleted が true の場合のみ表示
                 item.isCompleted && (
-                  <li key={index}>
-                    {`${item.task} ${formatDate(item.date)}`}
-                    <button
-                      onClick={() => {
-                        const copyTodo = [...todo];
-                        copyTodo[index].isCompleted = false;
-                        setTodo(copyTodo);
-                      }}
-                    >
-                      まだ終わってなかった！
-                    </button>
+                  <li key={index} style={{ listStyleType: "none" }}>
+                    <table style={{ border: "1px solid #ddd" }}>
+                      <tbody>
+                        <tr style={{ border: "1px solid #ddd" }}>
+                          <td style={{ border: "1px solid #ddd" }}>{`${
+                            item.task
+                          } ${formatDate(item.date)}`}</td>
+                          <td style={{ border: "1px solid #ddd" }}>
+                            <button
+                              onClick={() => {
+                                const copyTodo = [...todo];
+                                copyTodo[index].isCompleted = false;
+                                setTodo(copyTodo);
+                              }}
+                            >
+                              まだ終わってなかった！
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </li>
                 )
             )}
