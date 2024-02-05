@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 // 上から順に実施してください。
-// TODO 不要だと思われるコメントは削除してください。
 // TODO isCompletedの値が表示されているので削除してください。
 // TODO タスク作成の入力項目の色が気持ち悪いのでスタイルを削除してください。
 // TODO ToDo編集モーダルで期限が編集できないので、編集できるようにしてください。
@@ -9,25 +8,7 @@ import { useState } from "react";
 // TODO ソート機能を追加してください。ソート項目は期限で昇順、降順で並び替えられるようにしてください。
 // TODO 編集モーダルを開いた際の初期値に何も入力がないので、編集したいToDoのタスク名と期限がデフォルトで表示されるように修正してください。
 
-//isOpenがTrueなら表示する
-//onCloseでisModalOpenをfalseにする
-// const Modal = ({ isOpen, onClose }) => {
-//   return (
-//     <>
-//       {isOpen && (
-//         <div style={{ backgroundColor: "red", zIndex: 10 }}>
-//           <p>タスク編集</p>
-//           <input />
-//           <input />
-//           <button onClick={onClose}>閉じる</button>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
 //taskIndexは編集したいタスクの番号
-
 const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
   const [editTask, setEditTask] = useState("");
 
@@ -38,7 +19,6 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        {/* モーダルの内容 */}
         <p>編集したい内容を入力してね</p>
         <div>
           <input
@@ -51,7 +31,7 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
           />
           <button
             onClick={() => {
-              if (editTask === "") return; //空文字の場合は何もしない
+              if (editTask === "") return;
               const editCopyTodo = [...todo];
 
               editCopyTodo[taskIndex] = {
@@ -96,12 +76,10 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
 };
 
 const TodoApp = () => {
-  //jsゾーン
-  // Todoが入るリスト
-  const [task, setTask] = useState("");
-  const [dueDate, setDueDate] = useState(""); // 追加: 期限のステート
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editIndex, setEditIndex] = useState("");
+  const [task, setTask] = useState(""); // Todoが入るリスト
+  const [dueDate, setDueDate] = useState(""); // 期限のステート
+  const [isModalOpen, setIsModalOpen] = useState(false); //モーダル表示非表示
+  const [editIndex, setEditIndex] = useState(""); //編集したいタスクの番号
 
   const [todo, setTodo] = useState([
     { task: "タスク名1", isCompleted: false, date: "2/14" },
@@ -128,7 +106,7 @@ const TodoApp = () => {
         />
         <button
           onClick={() => {
-            if (task === "") return; //空文字の場合は何もしない
+            if (task === "") return;
             setTodo((todo) => [
               ...todo,
               { task, isCompleted: false, date: dueDate },
@@ -146,7 +124,6 @@ const TodoApp = () => {
           <li
             key={index} //繰り返しのものに必要
           >
-            {/* {item.task + " " + item.isCompleted + item.date} */}
             {`${item.task}
            ${item.isCompleted} ${item.date}`}
             <button
@@ -172,7 +149,6 @@ const TodoApp = () => {
       <div style={{ display: "flex" }}>
         <div style={{ margin: "5px" }}>
           <h2>未着手</h2>
-          {/* ここにstatusが未完了のタスクを表示 */}
           <ul>
             {todo.map(
               (item, index) =>
