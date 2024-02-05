@@ -87,8 +87,6 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
 };
 
 const TodoApp = () => {
-  //TODO タスクの更新
-  //TODO タスクの削除
   //jsゾーン
   // Todoが入るリスト
   const [task, setTask] = useState("");
@@ -149,6 +147,15 @@ const TodoApp = () => {
               }}
             >
               編集
+            </button>
+            <button
+              onClick={() => {
+                const copyDelateTodo = [...todo];
+                copyDelateTodo.splice(index, 1);
+                setTodo(copyDelateTodo);
+              }}
+            >
+              削除
             </button>
           </li>
         ))}
