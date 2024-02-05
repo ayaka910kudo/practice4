@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 // 上から順に実施してください。
-// TODO タスク作成の入力項目の色が気持ち悪いのでスタイルを削除してください。
-// TODO ToDo編集モーダルで期限が編集できないので、編集できるようにしてください。
+
 // TODO タスク名、期限、編集ボタン、削除ボタンが1行で表示されており、UIとして良くないのでテーブルで表示してください。
 // TODO ソート機能を追加してください。ソート項目は期限で昇順、降順で並び替えられるようにしてください。
 // TODO 編集モーダルを開いた際の初期値に何も入力がないので、編集したいToDoのタスク名と期限がデフォルトで表示されるように修正してください。
@@ -10,7 +9,7 @@ import { useState } from "react";
 //taskIndexは編集したいタスクの番号
 const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
   const [editTask, setEditTask] = useState("");
-
+  const [editDate, setEditDate] = useState("");
   if (!isOpen) {
     return null;
   }
@@ -28,6 +27,11 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
               setEditTask(event.target.value);
             }}
           />
+          <input
+            type="date"
+            value={editDate}
+            onChange={(event) => setEditDate(event.target.value)}
+          />
           <button
             onClick={() => {
               if (editTask === "") return;
@@ -35,8 +39,8 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
 
               editCopyTodo[taskIndex] = {
                 task: editTask,
+                date: editDate,
                 // とりあえず現在の値をそのまま入れておく
-                date: editCopyTodo[taskIndex].date,
                 isCompleted: editCopyTodo[taskIndex].isCompleted,
               };
               setTodo(editCopyTodo);
