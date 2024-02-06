@@ -127,25 +127,32 @@ const TodoApp = () => {
 
       <h2>全てのタスク</h2>
 
-      <ul style={{ listStyleType: "none" }}>
-        {todo.map((item, index) => (
-          <li
-            key={index} //繰り返しのものに必要
+      <table>
+        <tbody>
+          <ul
+            style={{
+              listStyleType: "none",
+
+              backgroundColor: "whitesmoke",
+              padding: "5px",
+              margin: "0",
+            }}
           >
-            <table style={{ border: "1px solid #ddd" }}>
-              <tbody>
-                <tr style={{ border: "1px solid #ddd" }}>
-                  <td style={{ border: "1px solid #ddd" }}>{index + 1}.</td>
-                  <td style={{ border: "1px solid #ddd" }}>{item.task}</td>
-                  <td style={{ border: "1px solid #ddd" }}>
-                    【期限】{formatDate(item.date)}
-                  </td>
+            {todo.map((item, index) => (
+              <li
+                key={index} //繰り返しのものに必要
+              >
+                <tr style={{ backgroundColor: "white", margin: "0" }}>
+                  <td>{index + 1}.</td>
+                  <td>{item.task}</td>
+                  <td>【期限】{formatDate(item.date)}</td>
                   <td>
                     <button
                       onClick={() => {
                         setEditIndex(index);
                         setIsModalOpen(true);
                       }}
+                      style={{ margin: "3px" }}
                     >
                       編集
                     </button>
@@ -157,27 +164,18 @@ const TodoApp = () => {
                         copyDelateTodo.splice(index, 1);
                         setTodo(copyDelateTodo);
                       }}
+                      style={{ margin: "3px" }}
                     >
                       削除
                     </button>
                   </td>
                 </tr>
-              </tbody>
-            </table>
+              </li>
+            ))}
+          </ul>
+        </tbody>
+      </table>
 
-            {/*             
-            <button
-              onClick={() => {
-                const copyDelateTodo = [...todo];
-                copyDelateTodo.splice(index, 1);
-                setTodo(copyDelateTodo);
-              }}
-            >
-              削除
-            </button> */}
-          </li>
-        ))}
-      </ul>
       <div style={{ display: "flex" }}>
         <div style={{ margin: "5px" }}>
           <h2>未着手</h2>
