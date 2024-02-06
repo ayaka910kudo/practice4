@@ -4,6 +4,7 @@ import { useState } from "react";
 
 // TODO ソート機能を追加してください。ソート項目は期限で昇順、降順で並び替えられるようにしてください。
 // TODO 編集モーダルを開いた際の初期値に何も入力がないので、編集したいToDoのタスク名と期限がデフォルトで表示されるように修正してください。
+// TODO 期限を入力しないでタスクを追加・編集すると期限にInvalid Dateと表示されるので、タスク名・期限が両方入力されているときだけ追加・編集できるようにしてください。
 
 //taskIndexは編集したいタスクの番号
 const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
@@ -128,51 +129,44 @@ const TodoApp = () => {
       <h2>全てのタスク</h2>
 
       <table>
+        <thead>
+          <tr>
+            <td>No.</td>
+            <td>タスク名</td>
+            <td>期限</td>
+            <td>編集</td>
+            <td>削除</td>
+          </tr>
+        </thead>
         <tbody>
-          <ul
-            style={{
-              listStyleType: "none",
-
-              backgroundColor: "whitesmoke",
-              padding: "5px",
-              margin: "0",
-            }}
-          >
-            {todo.map((item, index) => (
-              <li
-                key={index} //繰り返しのものに必要
-              >
-                <tr style={{ backgroundColor: "white", margin: "0" }}>
-                  <td>{index + 1}.</td>
-                  <td>{item.task}</td>
-                  <td>【期限】{formatDate(item.date)}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        setEditIndex(index);
-                        setIsModalOpen(true);
-                      }}
-                      style={{ margin: "3px" }}
-                    >
-                      編集
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        const copyDelateTodo = [...todo];
-                        copyDelateTodo.splice(index, 1);
-                        setTodo(copyDelateTodo);
-                      }}
-                      style={{ margin: "3px" }}
-                    >
-                      削除
-                    </button>
-                  </td>
-                </tr>
-              </li>
-            ))}
-          </ul>
+          {todo.map((item, index) => (
+            <tr key={index}>
+              <td>{index + 1}.</td>
+              <td>{item.task}</td>
+              <td>{formatDate(item.date)}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    setEditIndex(index);
+                    setIsModalOpen(true);
+                  }}
+                >
+                  編集
+                </button>
+              </td>
+              <td>
+                <button
+                  onClick={() => {
+                    const copyDelateTodo = [...todo];
+                    copyDelateTodo.splice(index, 1);
+                    setTodo(copyDelateTodo);
+                  }}
+                >
+                  削除
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
