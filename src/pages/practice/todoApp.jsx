@@ -173,72 +173,75 @@ const TodoApp = () => {
       <div style={{ display: "flex" }}>
         <div style={{ margin: "5px" }}>
           <h2>未着手</h2>
-          <ul>
-            {todo.map(
-              (item, index) =>
+          <table>
+            <thead>
+              <tr>
+                <td>タスク名</td>
+                <td>期限</td>
+                <td>ボタン</td>
+              </tr>
+            </thead>
+            <tbody>
+              {todo.map((item, index) => {
                 // isCompleted が false の場合のみ表示
-                !item.isCompleted && (
-                  <div>
-                    <li key={index} style={{ listStyleType: "none" }}>
-                      <table style={{ border: "1px solid #ddd" }}>
-                        <tbody>
-                          <tr style={{ border: "1px solid #ddd" }}>
-                            <td style={{ border: "1px solid #ddd" }}>
-                              {" "}
-                              {`${item.task} ${formatDate(item.date)}`}
-                            </td>
-                            <td>
-                              <button
-                                onClick={(event) => {
-                                  const copyTodo = [...todo];
-                                  copyTodo[index].isCompleted = true;
-                                  setTodo(copyTodo);
-                                }}
-                              >
-                                終わった！
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </li>
-                  </div>
-                )
-            )}
-          </ul>
+                return (
+                  !item.isCompleted && (
+                    <tr key={index}>
+                      <td>{item.task}</td>
+                      <td>{formatDate(item.date)}</td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            const copyTodo = [...todo];
+                            copyTodo[index].isCompleted = true;
+                            setTodo(copyTodo);
+                          }}
+                        >
+                          終わった！
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                );
+              })}
+            </tbody>
+          </table>
         </div>
         <div style={{ margin: "5px" }}>
           <h2>完了</h2>
-          <ul>
-            {todo.map(
-              (item, index) =>
-                // isCompleted が true の場合のみ表示
-                item.isCompleted && (
-                  <li key={index} style={{ listStyleType: "none" }}>
-                    <table style={{ border: "1px solid #ddd" }}>
-                      <tbody>
-                        <tr style={{ border: "1px solid #ddd" }}>
-                          <td style={{ border: "1px solid #ddd" }}>{`${
-                            item.task
-                          } ${formatDate(item.date)}`}</td>
-                          <td style={{ border: "1px solid #ddd" }}>
-                            <button
-                              onClick={() => {
-                                const copyTodo = [...todo];
-                                copyTodo[index].isCompleted = false;
-                                setTodo(copyTodo);
-                              }}
-                            >
-                              まだ終わってなかった！
-                            </button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </li>
-                )
-            )}
-          </ul>
+          <table>
+            <thead>
+              <tr>
+                <td>タスク名</td>
+                <td>期限</td>
+                <td>ボタン</td>
+              </tr>
+            </thead>
+            <tbody>
+              {todo.map((item, index) => {
+                //  isCompleted が true の場合のみ表示
+                return (
+                  item.isCompleted && (
+                    <tr>
+                      <td>{item.task}</td>
+                      <td>{formatDate(item.date)}</td>
+                      <td>
+                        <button
+                          onClick={() => {
+                            const copyTodo = [...todo];
+                            copyTodo[index].isCompleted = false;
+                            setTodo(copyTodo);
+                          }}
+                        >
+                          まだ終わってなかった！
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 
