@@ -85,9 +85,27 @@ const TodoApp = () => {
   const [editIndex, setEditIndex] = useState(""); //編集したいタスクの番号
 
   const [todo, setTodo] = useState([
-    { task: "タスク名1", isCompleted: false, date: "2/14" },
-    { task: "タスク名2", isCompleted: true, date: "2/15" },
+    { task: "タスク名1", isCompleted: false, date: "2024-1-1" },
+    { task: "タスク名2", isCompleted: true, date: "2024-1-2" },
   ]);
+
+  const sortTodoByDate = (order) => {
+    const sortedTodo = todo.slice().sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+
+      if (order === "asc") {
+        return dateA - dateB;
+      } else if (order === "desc") {
+        return dateB - dateA;
+      } else {
+        // デフォルトは昇順
+        return dateA - dateB;
+      }
+    });
+
+    setTodo(sortedTodo);
+  };
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -127,6 +145,8 @@ const TodoApp = () => {
       </div>
 
       <h2>全てのタスク</h2>
+      <button onClick={() => sortTodoByDate("asc")}>期限：昇順</button>
+      <button onClick={() => sortTodoByDate("desc")}>期限：降順</button>
 
       <table>
         <thead>
@@ -173,6 +193,8 @@ const TodoApp = () => {
       <div style={{ display: "flex" }}>
         <div style={{ margin: "5px" }}>
           <h2>未着手</h2>
+          <button onClick={() => sortTodoByDate("asc")}>期限：昇順</button>
+          <button onClick={() => sortTodoByDate("desc")}>期限：降順</button>
           <table>
             <thead>
               <tr>
@@ -209,6 +231,8 @@ const TodoApp = () => {
         </div>
         <div style={{ margin: "5px" }}>
           <h2>完了</h2>
+          <button onClick={() => sortTodoByDate("asc")}>期限：昇順</button>
+          <button onClick={() => sortTodoByDate("desc")}>期限：降順</button>
           <table>
             <thead>
               <tr>
