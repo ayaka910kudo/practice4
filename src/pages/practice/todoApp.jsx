@@ -2,11 +2,14 @@ import { useState } from "react";
 
 // 上から順に実施してください。
 
-// TODO ソート機能を追加してください。ソート項目は期限で昇順、降順で並び替えられるようにしてください。
-// TODO 編集モーダルを開いた際の初期値に何も入力がないので、編集したいToDoのタスク名と期限がデフォルトで表示されるように修正してください。
 // TODO 期限を入力しないでタスクを追加・編集すると期限にInvalid Dateと表示されるので、タスク名・期限が両方入力されているときだけ追加・編集できるようにしてください。
-
 //taskIndexは編集したいタスクの番号
+
+const formatDate = (dateString) => {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(dateString).toLocaleDateString("ja-JP", options);
+};
+
 const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
   const [editTask, setEditTask] = useState("");
   const [editDate, setEditDate] = useState("");
@@ -18,6 +21,10 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <p>編集したい内容を入力してね</p>
+        <p>{`【修正前】${todo[taskIndex].task}    ${formatDate(
+          todo[taskIndex].date
+        )}`}</p>
+
         <div>
           <input
             type="text"
@@ -107,10 +114,10 @@ const TodoApp = () => {
     setTodo(sortedTodo);
   };
 
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("ja-JP", options);
-  };
+  // const formatDate = (dateString) => {
+  //   const options = { year: "numeric", month: "long", day: "numeric" };
+  //   return new Date(dateString).toLocaleDateString("ja-JP", options);
+  // };
 
   return (
     <>
