@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // 上から順に実施してください。
 
@@ -10,9 +10,23 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ja-JP", options);
 };
 
-const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  taskIndex,
+  todo,
+  setTodo,
+  // editTask,
+  // setEditTask,
+}) => {
+  console.log("todo[taskIndex]", todo[taskIndex]);
   const [editTask, setEditTask] = useState("");
   const [editDate, setEditDate] = useState("");
+
+  useEffect(() => {
+    setEditTask(todo[taskIndex]?.task);
+  }, [taskIndex]);
+
   if (!isOpen) {
     return null;
   }
@@ -28,7 +42,8 @@ const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
         <div>
           <input
             type="text"
-            placeholder="ここに入力"
+            // placeholder="ここに入力"
+            value={editTask}
             onChange={(event) => {
               console.log(event);
               setEditTask(event.target.value);
@@ -90,6 +105,7 @@ const TodoApp = () => {
   const [dueDate, setDueDate] = useState(""); // 期限のステート
   const [isModalOpen, setIsModalOpen] = useState(false); //モーダル表示非表示
   const [editIndex, setEditIndex] = useState(""); //編集したいタスクの番号
+  // const [editTask, setEditTask] = useState("");
 
   const [todo, setTodo] = useState([
     { task: "タスク名1", isCompleted: false, date: "2024-1-1" },
@@ -175,6 +191,7 @@ const TodoApp = () => {
                 <button
                   onClick={() => {
                     setEditIndex(index);
+                    // setEditTask(item.task);
                     setIsModalOpen(true);
                   }}
                 >
@@ -283,6 +300,8 @@ const TodoApp = () => {
         taskIndex={editIndex}
         todo={todo}
         setTodo={setTodo}
+        // editTask={editTask}
+        // setEditTask={setEditTask}
       />
     </>
   );
