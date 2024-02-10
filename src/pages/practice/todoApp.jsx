@@ -19,6 +19,17 @@ const FormattedDate = (originalDate) => {
   return `${year}-${month}-${day}`;
 };
 
+//タスク名と期限が揃っていなかったら警告を表示する
+const IsFully = ({ task, dueDate }) => {
+  if (task === "") {
+    alert("タスクを入力してください");
+  }
+  if (dueDate === "") {
+    alert("期限を入力してください");
+  }
+  return null;
+};
+
 const Modal = ({
   isOpen,
   onClose,
@@ -169,7 +180,10 @@ const TodoApp = () => {
         />
         <button
           onClick={() => {
-            if (task === "") return;
+            IsFully({ task, dueDate });
+            if (task === "") {
+              return;
+            }
             setTodo((todo) => [
               ...todo,
               { task, isCompleted: false, date: dueDate },
