@@ -10,7 +10,7 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ja-JP", options);
 };
 
-const FormattedDate = (originalDate) => {
+const formattedDate = (originalDate) => {
   const dateObject = new Date(originalDate);
   const year = dateObject.getFullYear();
   const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // 月は0から始まるため+1する
@@ -19,26 +19,7 @@ const FormattedDate = (originalDate) => {
   return `${year}-${month}-${day}`;
 };
 
-//タスク名と期限が揃っていなかったら警告を表示する
-const IsFully = ({ task, dueDate }) => {
-  if (task === "") {
-    alert("タスクを入力してください");
-  }
-  if (dueDate === "") {
-    alert("期限を入力してください");
-  }
-  return null;
-};
-
-const Modal = ({
-  isOpen,
-  onClose,
-  taskIndex,
-  todo,
-  setTodo,
-  // editTask,
-  // setEditTask,
-}) => {
+const Modal = ({ isOpen, onClose, taskIndex, todo, setTodo }) => {
   console.log("todo[taskIndex]", todo[taskIndex]);
   const [editTask, setEditTask] = useState("");
   const [editDate, setEditDate] = useState("");
@@ -46,11 +27,8 @@ const Modal = ({
   //taskIndexに変化があったら第一引数の処理が走る
   useEffect(() => {
     setEditTask(todo[taskIndex]?.task);
-  }, [taskIndex]);
-
-  useEffect(() => {
     setEditDate(todo[taskIndex]?.date);
-  }, [taskIndex]);
+  }, [taskIndex, todo]);
 
   if (!isOpen) {
     return null;
@@ -60,14 +38,11 @@ const Modal = ({
     <div className="modal-overlay">
       <div className="modal-content">
         <p>編集したい内容を入力してね</p>
-        <p>{`【修正前】${todo[taskIndex].task}    ${formatDate(
-          todo[taskIndex].date
-        )}`}</p>
 
         <div>
           <input
+            //タスクの入力
             type="text"
-            // placeholder="ここに入力"
             value={editTask}
             onChange={(event) => {
               console.log(event);
@@ -75,13 +50,16 @@ const Modal = ({
             }}
           />
           <input
+            //期限の入力
             type="date"
-            value={FormattedDate(editDate)}
+            value={formattedDate(editDate)}
             onChange={(event) => setEditDate(event.target.value)}
           />
           <button
             onClick={() => {
-              if (editTask === "") return;
+              if (editTask === "" || editDate === "") {
+                return;
+              }
               const editCopyTodo = [...todo];
 
               editCopyTodo[taskIndex] = {
@@ -92,6 +70,7 @@ const Modal = ({
               };
               setTodo(editCopyTodo);
               setEditTask("");
+              setEditDate("");
               onClose();
             }}
           >
@@ -130,7 +109,6 @@ const TodoApp = () => {
   const [dueDate, setDueDate] = useState(""); // 期限のステート
   const [isModalOpen, setIsModalOpen] = useState(false); //モーダル表示非表示
   const [editIndex, setEditIndex] = useState(""); //編集したいタスクの番号
-  // const [editTask, setEditTask] = useState("");
 
   const [todo, setTodo] = useState([
     { task: "タスク名1", isCompleted: false, date: "2024-1-1" },
@@ -155,11 +133,6 @@ const TodoApp = () => {
     setTodo(sortedTodo);
   };
 
-  // const formatDate = (dateString) => {
-  //   const options = { year: "numeric", month: "long", day: "numeric" };
-  //   return new Date(dateString).toLocaleDateString("ja-JP", options);
-  // };
-
   return (
     <>
       <h1>☆ToDoリスト☆</h1>
@@ -167,6 +140,7 @@ const TodoApp = () => {
       <div style={{ display: "flex" }}>
         <input
           type="text"
+          value={task}
           placeholder="タスクを入力してね"
           onChange={(event) => {
             console.log(event);
@@ -180,15 +154,17 @@ const TodoApp = () => {
         />
         <button
           onClick={() => {
-            IsFully({ task, dueDate });
-            if (task === "") {
+            if (task === "" || dueDate === "") {
+              alert("タスクと期限の両方を入力してください");
               return;
             }
+
             setTodo((todo) => [
               ...todo,
               { task, isCompleted: false, date: dueDate },
             ]); //配列の最後に追加
             setTask("");
+            setDueDate("");
           }}
         >
           追加
@@ -245,8 +221,6 @@ const TodoApp = () => {
       <div style={{ display: "flex" }}>
         <div style={{ margin: "5px" }}>
           <h2>未着手</h2>
-          <button onClick={() => sortTodoByDate("asc")}>期限：昇順</button>
-          <button onClick={() => sortTodoByDate("desc")}>期限：降順</button>
           <table>
             <thead>
               <tr>
@@ -283,8 +257,6 @@ const TodoApp = () => {
         </div>
         <div style={{ margin: "5px" }}>
           <h2>完了</h2>
-          <button onClick={() => sortTodoByDate("asc")}>期限：昇順</button>
-          <button onClick={() => sortTodoByDate("desc")}>期限：降順</button>
           <table>
             <thead>
               <tr>
@@ -328,8 +300,6 @@ const TodoApp = () => {
         taskIndex={editIndex}
         todo={todo}
         setTodo={setTodo}
-        // editTask={editTask}
-        // setEditTask={setEditTask}
       />
     </>
   );
