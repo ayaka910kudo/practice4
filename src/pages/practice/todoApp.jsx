@@ -10,6 +10,15 @@ const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("ja-JP", options);
 };
 
+const FormattedDate = (originalDate) => {
+  const dateObject = new Date(originalDate);
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // 月は0から始まるため+1する
+  const day = String(dateObject.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 const Modal = ({
   isOpen,
   onClose,
@@ -23,8 +32,13 @@ const Modal = ({
   const [editTask, setEditTask] = useState("");
   const [editDate, setEditDate] = useState("");
 
+  //taskIndexに変化があったら第一引数の処理が走る
   useEffect(() => {
     setEditTask(todo[taskIndex]?.task);
+  }, [taskIndex]);
+
+  useEffect(() => {
+    setEditDate(todo[taskIndex]?.date);
   }, [taskIndex]);
 
   if (!isOpen) {
@@ -51,7 +65,7 @@ const Modal = ({
           />
           <input
             type="date"
-            value={editDate}
+            value={FormattedDate(editDate)}
             onChange={(event) => setEditDate(event.target.value)}
           />
           <button
